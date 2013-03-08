@@ -1,0 +1,15 @@
+Scrubyt::Extractor options:
+
+:javascript => false,
+:output => :hash,  
+
+
+debug stuff
+
+:log_level => :none
+:browser_log_level => :off (for debug purposes - view output of the browser)
+
+
+used internally:
+
+:child => true

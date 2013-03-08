@@ -1,0 +1,259 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Alpha Property Services UK Ltd</title>
+	<meta name="Description" content="Alpha Property Services UK Ltd, the property experts have created a new vision in property services. We help to achieve your goal with less hassle. Call us now on 0207 708 4567  " />
+	<meta name="Keywords" content="alpha property services uk for sale to let financial " />
+	<meta name="revisit-after" content="5 days" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+
+	<meta name="autosize" content="off" />
+	<meta name="robots" content="all" />
+	<meta name="author" content="www.alphapropertyservices.com" />
+	<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
+	<link rel="home" href="www.alphapropertyservices.com" />
+	<link rel="index" href="wwww.alphapropertyservices.com/index.php" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="shortcut" href="favicon.ico" />
+	<link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
+
+	<link rel="Shortcut Icon" type="image/ico" href="favicon.ico" />
+	<link media="screen" rel="stylesheet" type="text/css" href="style/main.css" />
+
+
+<script type="text/javascript" src="js/external.js"></script>
+<script type="text/javascript" src="js/js_prices.js"></script>
+</head>
+<body onload="changePrices('buy');">
+<!--[if IE 7]><div id="body1" class="W3C IE7"><![endif]-->
+<!--[if IE 6]><div id="body1" class="IE IE6 IE56 IE67"><![endif]-->
+<!--[if IE 5]><div id="body1" class="IE IE5 IE56"><![endif]-->
+<!--[if !IE]>--><div id="body1" class="W3C"><!--<![endif]-->
+
+<div id="wrapper">
+  <div id="header">
+  <div class="headersp">
+    <h1><a href="#">Alpha Property Services UK Ltd, Serves you better</a></h1>
+  </div>
+  <div class="headersp toppad"><p>307 East Street, London SE17 2SX </p>
+    <p>T: 020 7708 4567</p>
+    <p>F: 020 7708 3663</p>
+
+    <p>E: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#97;&#108;&#112;&#104;&#97;&#112;&#114;&#111;&#112;&#101;&#114;&#116;&#121;&#115;&#101;&#114;&#118;&#105;&#99;&#101;&#115;&#46;&#99;&#111;&#109;">&#105;&#110;&#102;&#111;&#64;&#97;&#108;&#112;&#104;&#97;&#112;&#114;&#111;&#112;&#101;&#114;&#116;&#121;&#115;&#101;&#114;&#118;&#105;&#99;&#101;&#115;&#46;&#99;&#111;&#109;</a></p>    
+  </div>
+  </div>  <div id="menu">  
+<ul>
+    <li><a href="index.php">Home</a></li>
+    <li><a href="property-for-sale.php">For Sale</a></li>
+    <li><a href="property-to-let.php">To Let</a></li>
+
+    <li><a href="property-overseas.php">Overseas</a></li>
+    <li><a href="financial-services.php">Financial Services</a></li>
+    <li><a href="about.php">About Us</a></li>
+    <li><a href="contact.php">Contact Us</a></li>
+  </ul>
+  </div>  <div id="wrapperContent">
+
+    <div class="col left">
+      <h2 class="bgH2a"><span class="bgH2b">Hot Properties</span></h2>
+     
+       <div class="divborder pow">
+       
+           		  <div><a href="property-details.php?propertyID=225"><img src="photos/thumbnails/Picture 019_150x150.jpg" border="0" /></a></div><div><a href="property-details.php?propertyID=225"><span>To Let</span><br /> FALMOUTH ROAD, SE1</a></div>
+		  		  <div><a href="property-details.php?propertyID=223"><img src="photos/thumbnails/100_0108_150x150.JPG" border="0" /></a></div><div><a href="property-details.php?propertyID=223"><span>To Let</span><br /> THURLOW STREET, SE17</a></div>
+
+		  		  		         </div>
+		
+		 
+        
+      <!-- border-->
+    </div>
+    <!-- left-->
+    <div class="col middle">
+      <div class="middlepadding">
+        <h2>Welcome </h2>
+        <p><img src="imgs/footSteps2.gif" alt="alpha property services" class="fright" /><strong>Alpha
+            Property Services UK Ltd. </strong>(APS) is one of UK's fastest
+            growing property and financial services company. We have established
+            an envied position in the market in a relatively short time. </p>
+
+        <p>We have considerable experience of the micro-markets prevailing across
+          the areas of our operation. </p>
+        <p>Our marketing in the local and national press,as well as our continuous
+          presence in the various property portals ensures we maintain a high
+          profile.</p><img src="imgs/slogan3.gif" alt="Let us walk you to your door" class="fleft" />
+      </div>
+      <!-- middle padding-->
+    </div>
+    <!-- midgle-->
+    <div class="col right ">
+      <h2 class="bgH2a"><span class="bgH2b">Property Search</span></h2>
+
+      <div class="divborder">
+        <form action="search-results.php" method="get" id="search">
+          <table id="searchForm">
+            <tr>
+              <td colspan="2"><p>I would like to:</p>
+                  <label>
+                    <input type="radio" name="letsaleID" value="1" onclick="changePrices('buy');" checked="checked"/>
+                    BUY</label>
+
+                  <label>
+                    <input type="radio" name="letsaleID" value="2" onclick="changePrices('rent');"/>
+                    RENT</label>              </td>
+            </tr>
+            <tr>
+              <th>Category:</th>
+              <td>&nbsp;</td>
+
+            </tr>
+            <tr>
+              <td colspan="2"><select name="propertyCategoryID" id="propertyCategoryID">
+                <option value="1">Commercial</option>
+                  <option value="2"selected="selected">Residential</option>
+                  <option value="3">Overseas</option>
+                                </select></td>
+
+              </tr>
+            <tr>
+              <th>Type:</th>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2"><select name="propertyTypeID" id="propertyTypeID">
+                <option value="%">Any</option>
+
+                                <option value="1">House</option>
+                                <option value="2">Flat</option>
+                                <option value="4">Apartment</option>
+                                <option value="5">Villa</option>
+                                <option value="6">Townhouse</option>
+                                <option value="7">Studio</option>
+
+                                <option value="9">Commercial</option>
+                                <option value="11">Single Room</option>
+                                <option value="12">Bedsit</option>
+                              </select></td>
+              </tr>
+            <tr>
+              <th>From:</th>
+
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2"><select name="valueFrom" id="valueFrom">
+                <option value="100">Minimum</option>
+                <option value="100000">100k</option>
+                <option value="200000">200k</option>
+
+                <option value="300000">300k</option>
+                <option value="400000">400k</option>
+                <option value="500000">500k</option>
+                <option value="600000">600k</option>
+                <option value="700000">700k</option>
+                <option value="800000">800k</option>
+
+                <option value="900000">900k</option>
+                <option value="1000000">1m</option>
+                <option value="1000000">2m</option>
+              </select></td>
+              </tr>
+            <tr>
+              <th>To:</th>
+
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2"><select name="valueTo" id="valueTo">
+                <option value="9999999">Maximum</option>
+                <option value="100000">100k</option>
+                <option value="200000">200k</option>
+
+                <option value="300000">300k</option>
+                <option value="400000">400k</option>
+                <option value="500000">500k</option>
+                <option value="600000">600k</option>
+                <option value="700000">700k</option>
+                <option value="800000">800k</option>
+
+                <option value="900000">900k</option>
+                <option value="1000000">1m</option>
+                <option value="1000000">2m</option>
+              </select></td>
+              </tr>
+            <tr>
+              <th>Bedrooms:</th>
+
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2"><select name="numberRooms" id="numberRooms">
+                <option value="%">Any</option>
+                <option>1</option>
+                <option>2</option>
+
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select></td>
+              </tr>
+            <tr>
+
+              <th>Area:</th>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2"><select name="areaID" id="areaID">
+                  <option value="%">All Area</option>
+                                    <option value="42">Abbeywood/Thamesme</option>
+
+                                    <option value="47">Bermondsey/Rotherh</option>
+                                    <option value="45">Brixton</option>
+                                    <option value="37">Brockley</option>
+                                    <option value="2">Camberwell</option>
+                                    <option value="35">Catford/Forest Hil</option>
+                                    <option value="46">Charlton</option>
+
+                                    <option value="41">Deptford</option>
+                                    <option value="43">Dulwich</option>
+                                    <option value="40">Elephant and Castl</option>
+                                    <option value="38">Kennnington/walwor</option>
+                                    <option value="34">Lewisham</option>
+                                    <option value="33">Newcross</option>
+
+                                    <option value="1">Old Kent Road</option>
+                                    <option value="48">Other</option>
+                                    <option value="3">Peckham/Nunhead</option>
+                                              </select></td>
+              </tr>
+            <tr>
+              <td>&nbsp;</td>
+
+              <td><input type="submit" name="Submit" value="Search" /></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <!-- border-->
+    </div>
+    <!-- right-->
+    <br class="clear" />
+
+	<p style="margin:0px;">&nbsp;</p>	
+  </div>
+<div id="footerPurple"><img src="imgs/footer.jpg" alt="" /></div>
+  <!-- wrapperContent-->
+</div>
+<!-- wrapper-->
+<div id="footer">
+    <p>© Copyright 2010, Alpha Property Services UK Ltd. All rights reserved. | <a href="terms-and-conditions.php">Terms &amp; Conditions</a><br />
+      307
+    East Street, London SE17 2SX | T: 020 7708 4567 | F: 020 7708 3663 | E: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#97;&#108;&#112;&#104;&#97;&#112;&#114;&#111;&#112;&#101;&#114;&#116;&#121;&#115;&#101;&#114;&#118;&#105;&#99;&#101;&#115;&#46;&#99;&#111;&#109;">&#105;&#110;&#102;&#111;&#64;&#97;&#108;&#112;&#104;&#97;&#112;&#114;&#111;&#112;&#101;&#114;&#116;&#121;&#115;&#101;&#114;&#118;&#105;&#99;&#101;&#115;&#46;&#99;&#111;&#109;</a></p>
+
+  </div></div><!-- fixer-->
+</body>
+</html>

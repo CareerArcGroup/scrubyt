@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/homeflow-zoopla_scraper/!svn/ver/689/scraper/admin/trunk/vendor/plugins/scrubyt/spec
+END
+.DS_Store
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/homeflow-zoopla_scraper/!svn/ver/556/scraper/admin/trunk/vendor/plugins/scrubyt/spec/.DS_Store
+END
+spec_helper.rb
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/homeflow-zoopla_scraper/!svn/ver/556/scraper/admin/trunk/vendor/plugins/scrubyt/spec/spec_helper.rb
+END
+spec.opts
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/homeflow-zoopla_scraper/!svn/ver/556/scraper/admin/trunk/vendor/plugins/scrubyt/spec/spec.opts
+END
