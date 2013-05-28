@@ -36,13 +36,13 @@ module Scrubyt
       end
       
       def is_ancestor_of(ancestor,element)
-        loop do 
+        loop do
           return true if element.parent == ancestor
           element = element.parent
           return false unless element
         end
       end
-      
+
       def extract_result(result_name, locator, options = {})    
         begin   
         return @current_result if @current_result 
@@ -150,15 +150,15 @@ module Scrubyt
             element_path = xpath[frame_path.size..-1]   
             ## go there
             ## TODO - how do we know whether we are still in that frame or not?!!?!?!?!?!
-            frame_src = @options[:agent].element_by_xpath(frame_path).attribute_value("src")
+            frame_src = @options[:agent].element(:xpath => frame_path).attribute_value("src")
             full_url = base_frame_url ? (base_frame_url + frame_src) : frame_src              
           
-            frame_browser = Celerity::Browser.new
+            frame_browser = Watir::Browser.new
             notify(:fetch_frame, full_url)
             frame_browser.goto(full_url)
           
             ## and evaluate the XPath  
-            frame_browser.elements_by_xpath(element_path)
+            frame_browser.elements(:xpath => element_path)
           else  
             #find the index of the last element ending in _detail
             idx = @options[:xpath_hierarchy].inject(-1){|a,v| a = @options[:xpath_hierarchy].index(v) if (v[0] =~ /detail/); a}
@@ -170,10 +170,10 @@ module Scrubyt
                 parent_xpath =  active_xpaths[0..-2].map{|x|x[1].sub(/^\./,'')}.join   
                 current_agent.elements_by_relative_xpath(parent_xpath, full_xpath, options[:parent_index])
               else         
-                current_agent.elements_by_xpath(full_xpath)                 
+                current_agent.elements(:xpath => full_xpath)
               end
             else   
-              current_agent.elements_by_xpath(full_xpath)               
+              current_agent.elements(:xpath => full_xpath)
             end
           end
         rescue Exception
@@ -278,21 +278,23 @@ module Scrubyt
       def wants_source?(method_name)
         method_name == :source
       end
-      
+
       def missing_required_results?(method_name, *args)
         if has_result_definition?(*args)
           result = extract_result(method_name, *args)
-          return args.last[:required] && result.compact.empty?          
+          options = args.last.is_a?(Hash) ? args.last : {}
+          return options[:required] && result.compact.empty?
         end
       end
 
       def drop_empty_result?(method_name, *args)
         if has_result_definition?(*args)
-          result = extract_result(method_name, *args)
-          return result.compact.empty? && args.last[:remove_blank]
+          result = extract_result(method_name, *args) || []
+          options = args.last.is_a?(Hash) ? args.last : {}
+          return result.compact.empty? && options[:remove_blank]
         end
       end
-      
+
       def result_node?(method_name, *args)
         if has_result_definition?(*args)
           result = extract_result(method_name, *args)

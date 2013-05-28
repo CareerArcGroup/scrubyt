@@ -9,14 +9,14 @@ module Scrubyt
         if @options[:perform_click]  
           element_to_click = @options[:perform_click]
           notify(:perform_click, element_to_click)
-          options[:original_page] << @agent.page unless @options[:firewatir]
+          options[:original_page] << @agent.url unless @options[:firewatir]
           #handle popups
           if(!@options[:firewatir] && (element_to_click.attribute_value('target') == '_blank' || element_to_click.attribute_value('target') == 'new' ))
              @options[:popup_agent] = element_to_click.click_and_attach
           else 
             element_to_click.click   
           end  
-          @options[:original_page] = [@agent.page] if (!@options[:firewatir] && @options.delete(:store_page))
+          @options[:original_page] = [@agent.url] if (!@options[:firewatir] && @options.delete(:store_page))
         else
           notify(:fetch, url)
           @options[:navigation_steps] << [:fetch, url] unless @options[:navigation_steps].include?([:fetch, url])
@@ -57,19 +57,19 @@ module Scrubyt
         
           link = if(crawl_on_numbers)             
             xpath = locator.sub("<<page_no>>", @options[:page_no].to_s)
-            break unless(l = @agent.element_by_xpath(locator.sub("<<page_no>>", @options[:page_no].to_s)))
+            return unless(l = @agent.element(:xpath => locator.sub("<<page_no>>", @options[:page_no].to_s)))
             @options[:page_no] += 1             
             l
           else
             xpath = locator
-            @agent.element_by_xpath(locator)
+            @agent.element(:xpath => locator)
           end
 
           clicking_next_set = false
           #exceptional case: link doesn't exist, but link to next_set does!
           if (!link.exists? && opts[:next_set])
             clicking_next_set = true
-            link = @agent.element_by_xpath(opts[:next_set])
+            link = @agent.element(:xpath => opts[:next_set])
           end    
 
           if link.exists?    
@@ -128,7 +128,7 @@ module Scrubyt
         #remedy this by taking only the correct element, by passing the index of the currently
         #processed pattern result        
         index = detail_depth > 1 ? 0 : @options[:parent_index]         
-        detail_element = current_agent.elements_by_xpath(full_detail_xpath)[index]     
+        detail_element = current_agent.elements(:xpath => full_detail_xpath)[index]
         return if !detail_element || !detail_element.exists?     
         
         options = @options        
@@ -149,7 +149,7 @@ module Scrubyt
           end
           
           notify(:next_detail, result_name, url, args) 
-          agent = Celerity::Browser.new(:resynchronize => true, 
+          agent = Watir::Browser.new(:resynchronize => true,
                                         :javascript_enabled => javascript_on_off,            
                                         :resynchronize => javascript_on_off,
                                         :secure_ssl => false)
@@ -157,7 +157,7 @@ module Scrubyt
           agent.goto url
 
           @options[:original_agent] = current_agent
-          @options[:original_page_manual] = current_agent.page          
+          @options[:original_page_manual] = current_agent.url
           @options[:agent] = agent       
           @options.delete(:perform_click)
           @options[:popup_agent].close if @options[:popup_agent]
@@ -169,7 +169,7 @@ module Scrubyt
                         :agent => agent)  
           
         else
-          url = detail_element.href
+          url = detail_element.attribute_value(:href)
           result_name = result_name.to_s.gsub(/_detail$/,"").to_sym
           notify(:next_detail, result_name, url, args)
           options.delete(:hash)
@@ -199,14 +199,14 @@ module Scrubyt
                @options[:agent].back 
                @options[:agent].wait
             when :default
-              @options[:agent].page = @options[:original_page].pop
+              @options[:agent].goto @options[:original_page].pop
             when :from_scratch
               @options[:perform_click] = nil
               @agent = @options[:agent]
               replay_navigation        
               @options[:agent] = @agent  
             else
-              @options[:agent].element_by_xpath(cs).click
+              @options[:agent].element(:xpath => cs).click
               @options[:agent].wait
           end           
         end                        
