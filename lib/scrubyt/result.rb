@@ -12,9 +12,9 @@ class Result
 
  def drill_for(data,name)
    case data
-     when Array
+     when Array:
        data.each{|d| drill_for(d,name)}
-     when Hash
+     when Hash:
        if data[name]
          if @result
            @result+= "#{@separator}#{data[name]}"
