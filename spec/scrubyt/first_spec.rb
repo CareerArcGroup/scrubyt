@@ -8,7 +8,7 @@ input = [{
   :next_page_xpath => "//form[@id='jobPagination_start']//input[@alt='Next Page' and not(@disabled)]",
   :execution_block => Proc.new do
         job_title "//a[@class='jobtitle']"
-        link "//a[@class='jobtitle']", :attribute => :href, :script => lambda{|x| "#{x =~ /file?:/  ? '' : 'file://#{File.dirname(__FILE__)}/'}#{x.gsub(/&WDDXJobSearchParams=.+$/,'')}"}
+        link "//a[@class='jobtitle']", :attribute => :href, :script => lambda{|x| "#{x =~ /file?:/  ? '' : "file://#{File.dirname(__FILE__)}/"}#{x.gsub(/&WDDXJobSearchParams=.+$/,'')}"}
   end,
   :expected_output =>  [
      {:job_title=>"Asset Protection & Investigation Manager", :link=>"file://#{File.dirname(__FILE__)}/default.cfm?action=viewJob&jobID=658555&hit_count=yes&headerFooter=1&promo=0&transfer=0"},
