@@ -43,8 +43,8 @@ module Scrubyt
         end
       end
 
-      def extract_result(result_name, locator, options = {})    
-        begin   
+      def extract_result(result_name, locator, options = {})
+        begin
         return @current_result if @current_result 
         results = []
         if locator == "source"
@@ -78,11 +78,12 @@ module Scrubyt
             end
           else                            
             matching_elements = evaluate_xpath(locator,options[:base_frame_url])
-            if @options[:parent_element]
-              unless @options[:firewatir] # already sorted
-                matching_elements = matching_elements.select {|r| is_ancestor_of(@options[:parent_element],r)}
-              end
-            end
+            #remove since Selenium gets this wrong. Instead see added positional logic in constructing full_xpath
+            #if @options[:parent_element]
+            #  unless @options[:firewatir] # already sorted
+            #    matching_elements = matching_elements.select {|r| is_ancestor_of(@options[:parent_element],r)}
+            #  end
+            #end
           end
            
           @options[:xpath_hierarchy].delete_if{|e| e[0] == result_name.to_s }
@@ -164,8 +165,11 @@ module Scrubyt
             idx = @options[:xpath_hierarchy].inject(-1){|a,v| a = @options[:xpath_hierarchy].index(v) if (v[0] =~ /detail/); a}
             #and go from there
             active_xpaths = @options[:xpath_hierarchy][idx+1..-1] 
-            full_xpath =  active_xpaths.map{|x|x[1].sub(/^\./,'')}.join  
-            if(@options[:firewatir]) 
+
+            joiner = @options[:parent_index].nil? ? "" : "[#{1 + @options[:parent_index]}]"
+            full_xpath = active_xpaths.map{|x|x[1].sub(/^\./,'')}.join(joiner)
+
+            if(@options[:firewatir])
               if(active_xpaths.size>1) 
                 parent_xpath =  active_xpaths[0..-2].map{|x|x[1].sub(/^\./,'')}.join   
                 current_agent.elements_by_relative_xpath(parent_xpath, full_xpath, options[:parent_index])
@@ -201,9 +205,11 @@ module Scrubyt
           results = matching_elements.map do |element|
             options = @options
             options.delete(:hash)
+            content = element.html rescue nil
             child_extractor_options = options.merge(:use_current_page => true,
                                                     :detail => true, 
-                                                    :first_child => options[:parent])
+                                                    :first_child => options[:parent],
+                                                    :content => content)
             result = { result_name => Extractor.new(child_extractor_options, &block).results }
             notify(:save_results, result_name, result) if first_child?
             result
@@ -216,13 +222,16 @@ module Scrubyt
               options = @options
               options.delete(:json)
               options[:json] = args.detect{|h| h.has_key?(:json)}[:json].to_json if args.detect{|h| h.has_key?(:json)}
+              content = element.html rescue nil
+              context = content
 
               child_extractor_options = options.merge(:use_current_page => true,
                                                       :detail => true,
                                                       :first_child => options[:parent],  
                                                       :parent_index => idx,  
                                                       :parent_element => element,
-                                                      :agent => @agent)
+                                                      :agent => @agent,
+                                                      :content => content)
               idx += 1
               result = { result_name => Extractor.new(child_extractor_options, &block).results }
               notify(:save_results, result_name, result) if first_child?

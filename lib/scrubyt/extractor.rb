@@ -77,7 +77,7 @@ module Scrubyt
     private
       
       def method_missing(method_name, *args, &block)         
-        puts "in method missing, method_name: #{method_name}, args: #{args}"
+        #puts "in method missing, method_name: #{method_name}, args: #{args} block: #{block}"
         @options[:agent] ||= @agent    
         update_xpath_hierarchy(method_name, args.first)
         #so that we can come back here when navigating to further detail pages / next pages
@@ -98,7 +98,7 @@ module Scrubyt
       
       def update_xpath_hierarchy(method_name_sym, xpath)
         method_name = method_name_sym.to_s
-        
+
         unless (next_page?(method_name_sym) || 
                 wants_current_url?(xpath.to_sym) ||  
                 wants_html?(xpath.to_sym) ||
@@ -201,7 +201,7 @@ module Scrubyt
       end
                       
       def setup_agent
-        return if @options.delete :use_current_page                   /
+        return if @options.delete :use_current_page
         javascript_on_off = @options[:javascript] || false
         notify(:setup_agent)
         if(current_agent)       

@@ -15,6 +15,7 @@ gem_spec = Gem::Specification.new do |s|
   s.homepage = 'http://www.scrubyt.org'
   s.has_rdoc = 'false'
 end
+
 =begin
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
@@ -25,6 +26,7 @@ Spec::Rake::SpecTask.new do |t|
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\.autotest']
 end
 =end
+
 Rake::GemPackageTask.new(gem_spec) do |pkg|
   pkg.need_zip = false
   pkg.need_tar = false
