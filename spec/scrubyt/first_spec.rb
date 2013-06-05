@@ -26,6 +26,24 @@ input = [{
      {:job_title=>"Pretrial Release Officer", :link=>"file://#{File.dirname(__FILE__)}/default.cfm?action=viewJob&jobID=661921&hit_count=yes&headerFooter=1&promo=0&transfer=0"},
      {:job_title=>"Vehicle for Hire Enforcement Officer (D)", :link=>"file://#{File.dirname(__FILE__)}/default.cfm?action=viewJob&jobID=662206&hit_count=yes&headerFooter=1&promo=0&transfer=0"},
      {:job_title=>"Watershed Plant Operator, Class I (Waste...", :link=>"file://#{File.dirname(__FILE__)}/default.cfm?action=viewJob&jobID=661676&hit_count=yes&headerFooter=1&promo=0&transfer=0"}]
+},
+{
+  :name => "Atlanta Details",
+  :url => "file://#{File.dirname(__FILE__)}/atl2.html",
+  :record_xpath => "//table[@class='NEOGOV_joblist']/tbody/tr[position()>0 and child::td[@class='jobtitle']]",
+  :next_page_xpath => "//form[@id='jobPagination_start']//input[@alt='Next Page' and not(@disabled)]",
+  :execution_block => Proc.new do
+        job_title "//a[@class='jobtitle']"
+        job_detail "//a[@class='jobtitle']" do
+                  description "//td[@class='jobdetail' and @headers='viewJobDescription']", :script => lambda {|x| x.gsub(/\s+/,' ')}
+                  salary  "//tr[child::th[text()='Salary:']]/td[1]", :script => lambda {|x| x.gsub(/^\s+/,'')}
+        end
+  end,
+  :expected_output =>  [
+     {:job_title=>"Asset Protection & Investigation Manager", :description => "The purpose of this job is to provide investigative legal services for the City of Atlanta. Responsibilities include managing a team of trained staff; conducting investigations; preparing investigation reports for use in court and administrative hearings; testifying in court and in administrative hearings when necessary; preparing investigative summaries and various other reports; etc.", :salary => "$54,700.00 - $91,100.00 Annually"
+     },
+     {:job_title=>"Aviation Security Systems Assistant", :description => "The purpose of this position is to provide clerical support for the operation of the court. Duties include, but are not limited to: entering cases and other case-related data, filing, setting calendars, maintaining records, bonds and warrants, court-related correspondence, cashiering and internal and external customer service in a public sector environment.", :salary => "$13.03 - $19.29 Hourly\n$1,042.31 - $1,542.81 Biweekly\n$2,258.33 - $3,342.75 Monthly\n$27,100.00 - $40,113.00 Annually"
+     } ]
 }]
 
 
@@ -40,11 +58,17 @@ input = [{
 
 
 
-
-
-
-
-
+def condense(input,output)
+  return output if input.nil?
+  input.each do |item|
+    if item.values.first.is_a? Array
+      output.merge! condense(item.values.first, {})
+    else
+      output[item.keys.first] = item.values.first
+    end
+  end
+  output
+end
 
 
 describe "Scrubyt Testing" do
@@ -58,7 +82,7 @@ describe "Scrubyt Testing" do
       end
 
       output = []
-      extractor.results.each {|r| output << r[:record].inject({}) {|k, h| k[h.keys.first] = h.values.first; k} }
+      extractor.results.each {|r| output << condense(r[:record], {}) }
 
       test[:expected_output].each_with_index do |item, i|
         it "record #{i+1} should match" do
@@ -69,3 +93,5 @@ describe "Scrubyt Testing" do
     end
   end
 end
+
+
