@@ -87,7 +87,6 @@ describe "Scrubyt Testing" do
       end
 
       output = []
-      puts extractor.results.inspect
       extractor.results.each {|r| output << condense(r[:record], {}) }
 
       test[:expected_output].each_with_index do |item, i|
