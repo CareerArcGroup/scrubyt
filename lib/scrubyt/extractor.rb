@@ -77,11 +77,11 @@ module Scrubyt
     private
       
       def method_missing(method_name, *args, &block)         
-        #puts "in method missing, method_name: #{method_name}, args: #{args} block: #{block}"
+        #puts "in method missing, method_name: #{method_name}, args.first: #{args.first}"    
         @options[:agent] ||= @agent    
         update_xpath_hierarchy(method_name, args.first)
         #so that we can come back here when navigating to further detail pages / next pages
-        @options[:original_page] = [@agent.url] if(!@options[:original_page] && @agent.respond_to?(:url))
+        @options[:original_page] = [@agent.page] if(!@options[:original_page] && @agent.respond_to?(:page))
         return fetch_next(method_name, *args, &block) if next_page?(method_name)
         return fetch_detail(method_name, *args, &block) if detail_block?(method_name, *args, &block)
         return save_result(method_name, extract_detail(method_name, *args, &block)) if result_block?(*args, &block)
@@ -98,7 +98,7 @@ module Scrubyt
       
       def update_xpath_hierarchy(method_name_sym, xpath)
         method_name = method_name_sym.to_s
-
+        
         unless (next_page?(method_name_sym) || 
                 wants_current_url?(xpath.to_sym) ||  
                 wants_html?(xpath.to_sym) ||
@@ -210,25 +210,15 @@ module Scrubyt
           require "firewatir"
           @agent = FireWatir::Firefox.new          
         else
-          require 'headless'
-          require 'watir-webdriver'
-          x =1
-          #require 'celerity'
-          @headless = ::Headless.new(:display => '115')
-          @headless.start
-          @agent = ::Watir::Browser.new #(:user_agent => @options[:user_agent] || DEFAULT_USER_AGENT,
-                                      #             :javascript_enabled => javascript_on_off,
-                                      #             :resynchronize => javascript_on_off,
-                                      #             :secure_ssl => false,
-                                      #             :log_level => @options[:browser_log_level] || :off)
-          @agent.driver.manage.timeouts.implicit_wait = 10
+          gem 'celerity', '=0.8.9'
+          require 'celerity'
           #@agent = Celerity::Browser.new(:user_agent => DEFAULT_USER_AGENT, :resynchronize => true) 
           #@agent = Celerity::Browser.new(:user_agent => 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)', :javascript_enabled => false)
-          #@agent = Celerity::Browser.new(:user_agent => @options[:user_agent] || DEFAULT_USER_AGENT,
-          #                               :javascript_enabled => javascript_on_off,
-          #                               :resynchronize => javascript_on_off,
-          #                               :secure_ssl => false,
-          #                               :log_level => @options[:browser_log_level] || :off)
+          @agent = Celerity::Browser.new(:user_agent => @options[:user_agent] || DEFAULT_USER_AGENT,
+                                         :javascript_enabled => javascript_on_off,
+                                         :resynchronize => javascript_on_off, 
+                                         :secure_ssl => false,
+                                         :log_level => @options[:browser_log_level] || :off)
         end    
         
           

@@ -36,15 +36,15 @@ module Scrubyt
       end
       
       def is_ancestor_of(ancestor,element)
-        loop do
+        loop do 
           return true if element.parent == ancestor
           element = element.parent
           return false unless element
         end
       end
-
-      def extract_result(result_name, locator, options = {})
-        begin
+      
+      def extract_result(result_name, locator, options = {})    
+        begin   
         return @current_result if @current_result 
         results = []
         if locator == "source"
@@ -78,12 +78,11 @@ module Scrubyt
             end
           else                            
             matching_elements = evaluate_xpath(locator,options[:base_frame_url])
-            #remove since Selenium gets this wrong. Instead see added positional logic in constructing full_xpath
-            #if @options[:parent_element]
-            #  unless @options[:firewatir] # already sorted
-            #    matching_elements = matching_elements.select {|r| is_ancestor_of(@options[:parent_element],r)}
-            #  end
-            #end
+            if @options[:parent_element]
+              unless @options[:firewatir] # already sorted
+                matching_elements = matching_elements.select {|r| is_ancestor_of(@options[:parent_element],r)}
+              end
+            end
           end
            
           @options[:xpath_hierarchy].delete_if{|e| e[0] == result_name.to_s }
@@ -151,33 +150,30 @@ module Scrubyt
             element_path = xpath[frame_path.size..-1]   
             ## go there
             ## TODO - how do we know whether we are still in that frame or not?!!?!?!?!?!
-            frame_src = @options[:agent].element(:xpath => frame_path).attribute_value("src")
+            frame_src = @options[:agent].element_by_xpath(frame_path).attribute_value("src")
             full_url = base_frame_url ? (base_frame_url + frame_src) : frame_src              
           
-            frame_browser = Watir::Browser.new
+            frame_browser = Celerity::Browser.new
             notify(:fetch_frame, full_url)
             frame_browser.goto(full_url)
           
             ## and evaluate the XPath  
-            frame_browser.elements(:xpath => element_path)
+            frame_browser.elements_by_xpath(element_path)
           else  
             #find the index of the last element ending in _detail
             idx = @options[:xpath_hierarchy].inject(-1){|a,v| a = @options[:xpath_hierarchy].index(v) if (v[0] =~ /detail/); a}
             #and go from there
             active_xpaths = @options[:xpath_hierarchy][idx+1..-1] 
-
-            joiner = @options[:parent_index].nil? ? "" : "[#{1 + @options[:parent_index]}]"
-            full_xpath = active_xpaths.map{|x|x[1].sub(/^\./,'')}.join(joiner)
-
-            if(@options[:firewatir])
+            full_xpath =  active_xpaths.map{|x|x[1].sub(/^\./,'')}.join  
+            if(@options[:firewatir]) 
               if(active_xpaths.size>1) 
                 parent_xpath =  active_xpaths[0..-2].map{|x|x[1].sub(/^\./,'')}.join   
                 current_agent.elements_by_relative_xpath(parent_xpath, full_xpath, options[:parent_index])
               else         
-                current_agent.elements(:xpath => full_xpath)
+                current_agent.elements_by_xpath(full_xpath)                 
               end
             else   
-              current_agent.elements(:xpath => full_xpath)
+              current_agent.elements_by_xpath(full_xpath)               
             end
           end
         rescue Exception
@@ -205,11 +201,9 @@ module Scrubyt
           results = matching_elements.map do |element|
             options = @options
             options.delete(:hash)
-            content = element.html rescue nil
             child_extractor_options = options.merge(:use_current_page => true,
                                                     :detail => true, 
-                                                    :first_child => options[:parent],
-                                                    :content => content)
+                                                    :first_child => options[:parent])
             result = { result_name => Extractor.new(child_extractor_options, &block).results }
             notify(:save_results, result_name, result) if first_child?
             result
@@ -222,16 +216,13 @@ module Scrubyt
               options = @options
               options.delete(:json)
               options[:json] = args.detect{|h| h.has_key?(:json)}[:json].to_json if args.detect{|h| h.has_key?(:json)}
-              content = element.html rescue nil
-              context = content
 
               child_extractor_options = options.merge(:use_current_page => true,
                                                       :detail => true,
                                                       :first_child => options[:parent],  
                                                       :parent_index => idx,  
                                                       :parent_element => element,
-                                                      :agent => @agent,
-                                                      :content => content)
+                                                      :agent => @agent)
               idx += 1
               result = { result_name => Extractor.new(child_extractor_options, &block).results }
               notify(:save_results, result_name, result) if first_child?
@@ -287,23 +278,21 @@ module Scrubyt
       def wants_source?(method_name)
         method_name == :source
       end
-
+      
       def missing_required_results?(method_name, *args)
         if has_result_definition?(*args)
           result = extract_result(method_name, *args)
-          options = args.last.is_a?(Hash) ? args.last : {}
-          return options[:required] && result.compact.empty?
+          return args.last[:required] && result.compact.empty?          
         end
       end
 
       def drop_empty_result?(method_name, *args)
         if has_result_definition?(*args)
-          result = extract_result(method_name, *args) || []
-          options = args.last.is_a?(Hash) ? args.last : {}
-          return result.compact.empty? && options[:remove_blank]
+          result = extract_result(method_name, *args)
+          return result.compact.empty? && args.last[:remove_blank]
         end
       end
-
+      
       def result_node?(method_name, *args)
         if has_result_definition?(*args)
           result = extract_result(method_name, *args)
