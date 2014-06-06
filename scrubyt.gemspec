@@ -18,8 +18,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency "simplecov"
   s.add_runtime_dependency "watir-webdriver", "0.6.2"
-  s.add_runtime_dependency "selenium-webdriver", "2.27.1"
-  s.add_runtime_dependency "childprocess", "0.3.6"
 
 
   s.files = `git ls-files`.split("\n")
